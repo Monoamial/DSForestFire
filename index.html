@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
   <main class="app-shell">
@@ -38,8 +39,8 @@
 
         <label class="control">
           <span class="control-copy"><strong>Lightning probability</strong><em>f</em></span>
-          <input class="number-value" id="fNumber" type="text" inputmode="decimal" value="0.00010" aria-label="Lightning probability f" />
-          <input id="fInput" type="range" min="0" max="0.002" step="0.00001" value="0.0001" />
+          <input class="number-value" id="fNumber" type="text" inputmode="decimal" value="0.00100" aria-label="Lightning probability f" />
+          <input id="fInput" type="range" min="0" max="0.002" step="0.00001" value="0.001" />
           <span class="range-labels"><i>0</i><i>0.002</i></span>
         </label>
 
@@ -137,11 +138,7 @@
       <article class="theory-card card model-note">
         <div class="section-heading"><span>MODEL CONTEXT</span></div>
         <div class="theory-copy context-copy">
-          <p>In 1992, Drossel and Schwabl introduced this model and argued that the tree-cluster distribution follows a power law, <i>N</i>(<i>s</i>) ∼ <i>s</i><sup>−τ</sup>, up to a maximum cluster size <i>s</i><sub>max</sub>. Here, <strong>τ</strong> is the fitted scaling exponent and <strong><i>s</i><sub>max</sub></strong> is the crossover beyond which large clusters become rapidly rarer.</p>
-          <div class="equations context-equations">
-            <span>θ = <i>p</i>/<i>f</i></span>
-            <span><i>s</i><sub>max</sub> ∼ θ ln θ</span>
-          </div>
+          <p>In 1992, Drossel and Schwabl introduced this model and argued that the tree-cluster distribution follows a power law, \(N(s) \sim s^{-\tau}\), up to a maximum cluster size \(s_{\max}\). Here, \(\tau\) is the fitted scaling exponent and \(s_{\max}\) is the crossover beyond which the cluster-size distribution decays exponentially. Defining the growth-to-lightning ratio as \(\theta=p/f\), they predicted \(s_{\max}\sim\theta\ln\theta\).</p>
           <p>The claim assumes a sufficient separation between the time scales of cluster burning, tree growth, and new-fire ignition. Later work by Grassberger (2002) challenged this conjecture, finding drifting effective exponents and evidence that the model likely does not exhibit asymptotic self-organized criticality. Even so, it remains an influential toy model for wildfire cycles and has motivated many subsequent approaches.</p>
         </div>
       </article>
