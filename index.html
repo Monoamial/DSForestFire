@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drossel–Schwabl Forest Fire</title>
+  <meta name="description" content="An interactive simulation of the Drossel–Schwabl self-organized critical forest-fire model." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">LATTICE AUTOMATA / 01</p>
+        <h1>Drossel–Schwabl<br><span>Forest Fire</span></h1>
+      </div>
+      <div class="header-note">
+        <span class="live-dot"></span>
+        <span>SELF-ORGANIZED CRITICALITY</span>
+      </div>
+    </header>
+
+    <section class="workspace">
+      <aside class="controls card">
+        <div class="section-heading">
+          <span>PARAMETERS</span>
+        </div>
+
+        <label class="control">
+          <span class="control-copy"><strong>Growth probability</strong><em>p</em></span>
+          <input class="number-value" id="pNumber" type="text" inputmode="decimal" value="0.010" aria-label="Growth probability p" />
+          <input id="pInput" type="range" min="0" max="0.1" step="0.001" value="0.01" />
+          <span class="range-labels"><i>0</i><i>0.1</i></span>
+        </label>
+
+        <label class="control">
+          <span class="control-copy"><strong>Lightning probability</strong><em>f</em></span>
+          <input class="number-value" id="fNumber" type="text" inputmode="decimal" value="0.00010" aria-label="Lightning probability f" />
+          <input id="fInput" type="range" min="0" max="0.002" step="0.00001" value="0.0001" />
+          <span class="range-labels"><i>0</i><i>0.002</i></span>
+        </label>
+
+        <label class="control">
+          <span class="control-copy"><strong>Lattice size</strong><em>N × N</em></span>
+          <span class="value" id="sizeValue">160</span>
+          <input id="sizeInput" type="range" min="40" max="320" step="20" value="160" />
+          <span class="range-labels"><i>40</i><i>320</i></span>
+        </label>
+
+        <label class="control speed-control">
+          <span class="control-copy"><strong>Simulation speed</strong><em>steps / frame</em></span>
+          <span class="value" id="speedValue">1×</span>
+          <input id="speedInput" type="range" min="1" max="20" step="1" value="1" />
+          <span class="range-labels"><i>1×</i><i>20×</i></span>
+        </label>
+
+        <div class="preset-block">
+          <span class="preset-label">PRESET</span>
+          <button id="criticalityButton" class="preset-button">Criticality <small>p=.01 · f=.001</small></button>
+        </div>
+
+        <div class="button-row">
+          <button id="toggleButton" class="primary"><span id="toggleIcon">Ⅱ</span><span id="toggleText">Pause</span></button>
+          <button id="resetButton" class="secondary">Reset</button>
+        </div>
+
+        <div class="legend" aria-label="Cell state legend">
+          <span><i class="swatch tree"></i>Tree</span>
+          <span><i class="swatch fire"></i>Burning</span>
+          <span><i class="swatch empty"></i>Empty</span>
+        </div>
+      </aside>
+
+      <section class="simulation card">
+        <div class="simulation-head">
+          <div class="section-heading"><span>LATTICE</span></div>
+          <div class="generation">GENERATION <strong id="generation">0</strong></div>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="lattice" width="800" height="800" aria-label="Forest fire lattice"></canvas>
+          <div class="scanline"></div>
+        </div>
+      </section>
+
+      <aside class="metrics">
+        <article class="metric card">
+          <div class="section-heading"><span>TREE DENSITY</span></div>
+          <p class="metric-symbol">ρ̄</p>
+          <p class="metric-value" id="densityValue">0.500</p>
+          <div class="meter"><span id="densityMeter" style="width:50%"></span></div>
+          <p class="metric-foot"><span id="treeCount">12,800</span> TREES</p>
+        </article>
+
+        <article class="metric card cluster-card">
+          <div class="section-heading"><span>AVG. CLUSTER SIZE</span></div>
+          <p class="metric-symbol">s̄</p>
+          <p class="metric-value" id="clusterValue">—</p>
+          <div class="spark-wrap"><canvas id="sparkline" width="360" height="100"></canvas></div>
+          <p class="metric-foot"><span id="clusterCount">—</span> CLUSTERS</p>
+        </article>
+
+        <article class="metric card fit-metric">
+          <div class="section-heading"><span>POWER-LAW EXPONENT</span></div>
+          <p class="metric-symbol">τ</p>
+          <p class="metric-value" id="tauMetric">—</p>
+          <p class="metric-foot"><span>STEADY-STATE AVG.</span><span id="tauFitQuality">WAITING</span></p>
+        </article>
+
+        <article class="metric card fit-metric">
+          <div class="section-heading"><span>CLUSTER CUTOFF</span></div>
+          <p class="metric-symbol"><i>s</i><sub>max</sub></p>
+          <p class="metric-value" id="cutoffMetric">—</p>
+          <p class="metric-foot"><span>STEADY-STATE AVG.</span><span id="cutoffFitCount">WAITING</span></p>
+        </article>
+
+        <article class="rules card">
+          <div class="section-heading"><span>RULES</span></div>
+          <div class="rule"><i class="state tree"></i><span>→</span><i class="state fire"></i><small>burning neighbor<br>or probability <em>f</em></small></div>
+          <div class="rule"><i class="state fire"></i><span>→</span><i class="state empty"></i><small>next step</small></div>
+          <div class="rule"><i class="state empty"></i><span>→</span><i class="state tree"></i><small>probability <em>p</em></small></div>
+        </article>
+      </aside>
+    </section>
+
+    <section class="analysis-grid single-analysis">
+      <article class="analysis-card card">
+        <div class="section-heading"><span>CLUSTER-SIZE DISTRIBUTION</span></div>
+        <div class="plot-title"><strong>⟨N(s)⟩</strong><span id="samplingStatus">EQUILIBRATING · 500 GENERATIONS</span></div>
+        <canvas id="clusterPlot" class="analysis-plot" width="1280" height="320"></canvas>
+        <p class="plot-foot"><span id="clusterSamples">0 SAMPLES</span><span id="fitLabel">FIT COLLECTING DATA</span></p>
+
+      </article>
+
+      <!-- Scaling-picture explainer intentionally hidden for now.
+      <article class="theory-card card">…</article>
+      -->
+    </section>
+
+    <footer>
+      <p>PERIODIC BOUNDARY CONDITIONS</p>
+      <p>VON NEUMANN NEIGHBORHOOD</p>
+      <p>DS–1992</p>
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
