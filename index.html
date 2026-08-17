@@ -19,7 +19,7 @@
       </div>
       <div class="header-note">
         <span class="live-dot"></span>
-        <span>SELF-ORGANIZED CRITICALITY</span>
+        <span>FOREST-FIRE LATTICE MODEL</span>
       </div>
     </header>
 
@@ -59,7 +59,7 @@
 
         <div class="preset-block">
           <span class="preset-label">PRESET</span>
-          <button id="criticalityButton" class="preset-button">Criticality <small>p=.01 · f=.001</small></button>
+          <button id="criticalityButton" class="preset-button">Time scale separation <small>p=.01 · f=.001</small></button>
         </div>
 
         <div class="button-row">
@@ -113,7 +113,7 @@
           <div class="section-heading"><span>CLUSTER CUTOFF</span></div>
           <p class="metric-symbol"><i>s</i><sub>max</sub></p>
           <p class="metric-value" id="cutoffMetric">—</p>
-          <p class="metric-foot"><span>STEADY-STATE AVG.</span><span id="cutoffFitCount">WAITING</span></p>
+          <p class="metric-foot"><span>CURRENT FIT</span><span id="cutoffFitCount">WAITING</span></p>
         </article>
 
         <article class="rules card">
@@ -134,14 +134,22 @@
 
       </article>
 
-      <!-- Scaling-picture explainer intentionally hidden for now.
-      <article class="theory-card card">…</article>
-      -->
+      <article class="theory-card card model-note">
+        <div class="section-heading"><span>MODEL CONTEXT</span></div>
+        <div class="theory-copy context-copy">
+          <p>In 1992, Drossel and Schwabl introduced this model and argued that the tree-cluster distribution follows a power law, <i>N</i>(<i>s</i>) ∼ <i>s</i><sup>−τ</sup>, up to a maximum cluster size <i>s</i><sub>max</sub>. Here, <strong>τ</strong> is the fitted scaling exponent and <strong><i>s</i><sub>max</sub></strong> is the crossover beyond which large clusters become rapidly rarer.</p>
+          <div class="equations context-equations">
+            <span>θ = <i>p</i>/<i>f</i></span>
+            <span><i>s</i><sub>max</sub> ∼ θ ln θ</span>
+          </div>
+          <p>The claim assumes a sufficient separation between the time scales of cluster burning, tree growth, and new-fire ignition. Later work by Grassberger (2002) challenged this conjecture, finding drifting effective exponents and evidence that the model likely does not exhibit asymptotic self-organized criticality. Even so, it remains an influential toy model for wildfire cycles and has motivated many subsequent approaches.</p>
+        </div>
+      </article>
     </section>
 
     <footer>
       <p>PERIODIC BOUNDARY CONDITIONS</p>
-      <p>VON NEUMANN NEIGHBORHOOD</p>
+
       <p>DS–1992</p>
     </footer>
   </main>
